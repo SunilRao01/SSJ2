@@ -9,6 +9,8 @@ public class Player2D : MonoBehaviour
 	// Movement
 	public float movementSpeed;
 	public float maxSpeed;
+	public float jumpForce;
+	private bool isGrounded;
 
 	void Start () 
 	{
@@ -20,6 +22,7 @@ public class Player2D : MonoBehaviour
 	
 	void Update () 
 	{
+
 		input();
 	}
 
@@ -30,15 +33,17 @@ public class Player2D : MonoBehaviour
 
 	private void playerControls()
 	{
+		// Horizontal Movement
 		Vector2 movementDirection = new Vector2();
 
 		if (o_rigidbody.velocity.x < maxSpeed)
 		{
 			movementDirection.x = Input.GetAxisRaw("Horizontal") * movementSpeed;
 		}
-		if (o_rigidbody.velocity.y < maxSpeed)
+
+		if (isGrounded && Input.GetAxisRaw("Vertical") == 1)
 		{
-			movementDirection.y = Input.GetAxisRaw("Vertical") * movementSpeed;
+			o_rigidbody.AddForce(Vector3.up * jumpForce);
 		}
 
 		o_rigidbody.AddForce(movementDirection);
@@ -46,11 +51,17 @@ public class Player2D : MonoBehaviour
 
 	void OnCollisionEnter(Collision other)
 	{
-
+		if (other.gameObject.CompareTag("ground"))
+		{
+			isGrounded = true;
+		}
 	}
 
 	void OnCollisionExit(Collision other)
 	{
-		
+		if (other.gameObject.CompareTag("ground"))
+		{
+			isGrounded = false;
+		}
 	}
 }

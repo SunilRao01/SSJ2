@@ -319,7 +319,7 @@ GameObject:
   - 23: {fileID: 626986903}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -481,8 +481,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .319999993, y: .319999993, z: .062179517}
-  m_Center: {x: 0, y: 0, z: .00119368045}
+  m_Size: {x: .209215328, y: .290727437, z: .062179517}
+  m_Center: {x: -.00539230183, y: -.0146362968, z: .00119368045}
 --- !u!54 &1130660055
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1130660053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -.469999999, z: 0}
   m_LocalScale: {x: 3.713691, y: 3.71369195, z: 3.71369195}
   m_Children:
   - {fileID: 1652420874}
@@ -550,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 50
   maxSpeed: 10
+  jumpForce: 300
 --- !u!1 &1156226834
 GameObject:
   m_ObjectHideFlags: 0
