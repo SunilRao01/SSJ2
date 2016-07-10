@@ -2,11 +2,6 @@ var startMenu = function(game) {}
 
 WebFontConfig = {
 
-    //  'active' means all requested fonts have finished loading
-    //  We set a 1 second delay before calling 'createText'.
-    //  For some reason if we don't the browser cannot render the text the first time it's created.
-
-
     //  The Google Fonts we want to load (specify as many as you like in the array)
     google: {
       families: ['Bungee Shade']
@@ -29,12 +24,8 @@ startMenu.prototype =
 	{
 		this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	},
-	
-	create: function()
+	createText: function()
 	{
-		// Background color
-		this.stage.backgroundColor = '#81c9f9';
-
 		// Text
 		var title = this.game.add.text(this.game.world.centerX, this.game.world.centerY-160, "Summer Slow Jam");
 		title.font = 'Bungee Shade';
@@ -48,7 +39,15 @@ startMenu.prototype =
 		title.fill = '#ffffff'
 		title.stroke = '#000000';
     	title.strokeThickness = 2;
+	},
+	create: function()
+	{
+		// Background color
+		this.stage.backgroundColor = '#81c9f9';
 
+		this.time.events.add(Phaser.Timer.SECOND/2, this.createText, this);
+
+		//this.time.events.add(Phaser.Timer.Second, this.createText, this);
     	clouds = this.add.group();
 
     	// Add 1 pre exisitng clouds
@@ -82,18 +81,10 @@ startMenu.prototype =
 		c.x -= clouds.getAt(clouds.length-1).width;
 		clouds.replace(clouds.getAt(clouds.length-1), c);
 		
+		cloudMovementFlag = 1;
 
     	// Constantly add clouds every 3 seconds
     	this.time.events.loop(Phaser.Timer.SECOND * 5, this.spawnCloud, this);
-
-    	//this.spawncloud();
-		// Animated horse
-		/*var horses = this.game.add.sprite(this.game.world.centerX - 92, this.game.world.centerY - 58.5, 'horses');
-		horses.tint = 0x00;
-		horses.animations.add('move');
-
-		horses.animations.play('move', 20, true);
-		movingHorse = horses;*/
 	},
 	spawnCloud: function()
 	{
@@ -129,7 +120,7 @@ startMenu.prototype =
 	},
 	update: function()
 	{
-		if (clouds.length > 0)
+		if (cloudMovementFlag == 1 && clouds.length > 0)
 		{
 			clouds.forEach(function(cloud){ cloud.x += 1; }, this);;
 
