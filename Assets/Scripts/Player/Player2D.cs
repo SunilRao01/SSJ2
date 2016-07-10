@@ -3,6 +3,14 @@ using System.Collections;
 
 public class Player2D : MonoBehaviour 
 {
+	enum Direction
+	{
+		left,
+		right,
+		up,
+		down
+	};
+
 	// Player component instances
 	private Rigidbody o_rigidbody;
 
@@ -11,13 +19,14 @@ public class Player2D : MonoBehaviour
 	public float maxSpeed;
 	public float jumpForce;
 	private bool isGrounded;
+	private Direction currentDirection;
 
 	void Start () 
 	{
 		// Instantiate component instances
 		o_rigidbody = GetComponent<Rigidbody>();
 
-
+		currentDirection = Direction.right;
 	}
 	
 	void Update () 
@@ -39,14 +48,32 @@ public class Player2D : MonoBehaviour
 		if (o_rigidbody.velocity.x < maxSpeed)
 		{
 			movementDirection.x = Input.GetAxisRaw("Horizontal") * movementSpeed;
-		}
 
+			if (movementDirection.x < 0)
+			{
+				currentDirection = Direction.left;
+			}
+			else if (movementDirection.x > 0)
+			{
+				currentDirection = Direction.left;
+			}
+		}
+		o_rigidbody.AddForce(movementDirection);
 		if (isGrounded && Input.GetAxisRaw("Vertical") == 1)
 		{
 			o_rigidbody.AddForce(Vector3.up * jumpForce);
+
+			if (currentDirection == Direction.left && Input.GetAxisRaw("Horizontal") != 0)
+			{
+				o_rigidbody.AddForce(Vector3.right * (jumpForce/4));
+			}
+			else if (currentDirection == Direction.right && Input.GetAxisRaw("Horizontal") != 0)
+			{
+				o_rigidbody.AddForce(Vector3.left * (jumpForce/4));
+			}
 		}
 
-		o_rigidbody.AddForce(movementDirection);
+
 	}
 
 	void OnCollisionEnter(Collision other)
