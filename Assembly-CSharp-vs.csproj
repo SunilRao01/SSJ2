@@ -55,12 +55,15 @@
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Optional\HeadBob.cs" />
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Optional\PauseMenu.cs" />
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Utils\CameraFade.cs" />
+     <Compile Include="Assets\Scripts\Dialogue.cs" />
      <Compile Include="Assets\Scripts\DimensionSwitch.cs" />
      <Compile Include="Assets\Scripts\Player\Player2D.cs" />
      <Compile Include="Assets\Scripts\Player\Player3D.cs" />
      <Compile Include="Assets\Scripts\Rotate.cs" />
+     <Compile Include="Assets\Scripts\TalkingMonster.cs" />
      <Compile Include="Assets\Scripts\Tools\iTween.cs" />
      <None Include="Assets\First Person Drifter Controller\info.txt" />
+     <None Include="Assets\Shader\3DText.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Game Development/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
