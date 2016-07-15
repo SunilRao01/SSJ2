@@ -4,26 +4,123 @@ using System.Collections;
 public class TalkingMonster : MonoBehaviour 
 {
 	private GameObject o_dialogueBox;
+	private Dialogue c_dialogue;
 	private bool withPlayer;
+	private TextAsset dialogueText;
+	private bool activatedChoices = false;
+	private bool isDialoguing = false;
+
+	private GameObject dialogueChoice1;
+	private GameObject dialogueChoice2;
+	private GameObject dialogueChoice3;
 
 	void Awake () 
 	{
 		o_dialogueBox = transform.GetChild(0).gameObject;
-
 		o_dialogueBox.GetComponent<MeshRenderer>().enabled = false;
 		o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+
+		c_dialogue = GetComponent<Dialogue>();
+
+		dialogueText = Resources.Load("test") as TextAsset;
+		int startIndex = 1;
+		bool choicesFlag = false;
+		dialogueChoice tempDialogueChoice = new dialogueChoice();
+
+		c_dialogue.dialogueArray.Clear();
+		c_dialogue.dialogueChoices.Clear();
+		c_dialogue.dialogueChoicePositions.Clear();
+
+		dialogueChoice1 = transform.GetChild(1).gameObject;
+		dialogueChoice2 = transform.GetChild(2).gameObject;
+		dialogueChoice3 = transform.GetChild(3).gameObject;
+
+
+		for (int i = 0; i < dialogueText.text.Length; i++)
+		{
+			if (i == 0)
+			{
+				continue;
+			}
+			else if (!choicesFlag)
+			{
+				if (dialogueText.text[i] == '-')
+				{
+					c_dialogue.dialogueArray.Add(dialogueText.text.Substring(startIndex, (i-startIndex)));
+					startIndex = i+1;
+				}
+				else if (dialogueText.text[i] == '1')
+				{
+					c_dialogue.dialogueArray.Add(dialogueText.text.Substring(startIndex, (i-startIndex)));
+
+					c_dialogue.dialogueChoicePositions.Add(c_dialogue.dialogueArray.Count);
+
+					choicesFlag = true;
+					startIndex = i+1;
+					continue;
+				}
+			}
+			else
+			{
+				if (dialogueText.text[i] == '-')
+				{
+					tempDialogueChoice.choice3 = dialogueText.text.Substring(startIndex, (i-startIndex));
+
+					c_dialogue.dialogueChoices.Add(tempDialogueChoice);
+					choicesFlag = false;
+					startIndex = i+1;
+					continue;
+				}
+				else
+				{
+					if (dialogueText.text[i] == '2')
+					{
+						tempDialogueChoice.choice1 = dialogueText.text.Substring(startIndex, (i-startIndex));
+						startIndex = i+1;
+					}
+					else if (dialogueText.text[i] == '3')
+					{
+						tempDialogueChoice.choice2 = dialogueText.text.Substring(startIndex, (i-startIndex));
+						startIndex = i+1;
+					}
+				}
+			}
+
+			if (i == (dialogueText.text.Length-1))
+			{
+				c_dialogue.dialogueArray.Add(dialogueText.text.Substring(startIndex, (i-startIndex)));
+			}
+		}
+
+		c_dialogue.initializeDialogue();
+
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			if (withPlayer && !isDialoguing)
+			{
+				withPlayer = true;
+				o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+				o_dialogueBox.GetComponent<MeshRenderer>().enabled = true;
+
+				GetComponent<Dialogue>().initializeDialogue();
+
+				o_dialogueBox.GetComponent<TextMesh>().text = "";
+
+				Vector3 targetScale = new Vector3(0.054f, 0.0162f, 0.054f);
+				iTween.ScaleTo(o_dialogueBox, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
+				                                          "oncomplete", "afterScaleUp", "time", 0.5f));
+			}
+		}
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player"))
 		{
-			o_dialogueBox.GetComponent<MeshRenderer>().enabled = true;
-			o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
-
-			Vector3 targetScale = new Vector3(0.05f, 0.02f, 0.07f);
-			iTween.ScaleTo(o_dialogueBox, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
-			                                          "oncomplete", "afterScaleUp", "time", 0.5f));
 			withPlayer = true;
 		}
 	}
@@ -32,18 +129,33 @@ public class TalkingMonster : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+			withPlayer = false;
+			isDialoguing = false;
+
 			Vector3 targetScale = new Vector3(0.01f, 0.003f, 0.01f);
 			iTween.ScaleTo(o_dialogueBox, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
 			                                          "oncomplete", "afterScaleDown", "time", 0.5f));
-			withPlayer = false;
+
+			Vector3 targetScale_2 = new Vector3(0.0148f, 0.00592f, 0.0207f);
+			iTween.ScaleTo(dialogueChoice1, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                           "time", 0.5f));
+			iTween.ScaleTo(dialogueChoice2, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                             "time", 0.5f));
+			iTween.ScaleTo(dialogueChoice3, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                            "oncomplete", "afterScaleDownChoices", "time", 0.5f));
+
+			/*GetComponent<Dialogue>().iterator = 0;
+			GetComponent<Dialogue>().dialogueChoiceIndex = 0;
+			GetComponent<Dialogue>().dialogueChoicePosition = 0;*/
 		}
 	}
 
 	void afterScaleUp()
 	{
 
-
+		Debug.Log("Starting dialogue!");
 		GetComponent<Dialogue>().startDialogue();
+		isDialoguing = true;
 	}
 
 	void afterScaleDown()
@@ -52,5 +164,18 @@ public class TalkingMonster : MonoBehaviour
 		o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
 		GetComponent<Dialogue>().restartDialogue();
+	}
+
+	void afterScaleDownChoices()
+	{
+		o_dialogueBox.GetComponent<MeshRenderer>().enabled = false;
+		o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		dialogueChoice1.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChoice1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChoice2.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChoice2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChoice3.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChoice3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 	}
 }

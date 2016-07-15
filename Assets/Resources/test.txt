@@ -1,0 +1,18 @@
+-This is the first line of dialogue!
+-This will be the second line!
+-This is the third line of dialogue!
+1First option ONE
+2Second option ONE
+3Third option ONE
+-This is the fourth line of dialogue!
+-This is the fifth line of dialogue!
+-This is the sixth line of dialogue!
+1First option TWO
+2Second option TWO
+3Third option TWO
+-This is the seventh line of dialogue!
+-This is the eigth of dialogue!
+1First option FINAL
+2Second option FINAL
+3Third option FINAL
+-This is the last line of dialogue.
