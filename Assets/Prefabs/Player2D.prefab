@@ -12,7 +12,7 @@ GameObject:
   - 92: {fileID: 9273944}
   - 124: {fileID: 12479754}
   - 81: {fileID: 8145234}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -29,9 +29,9 @@ GameObject:
   - 4: {fileID: 431842}
   - 212: {fileID: 21277602}
   - 65: {fileID: 6546288}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tempSword
-  m_TagString: Untagged
+  m_TagString: playerSword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ GameObject:
   - 54: {fileID: 5451238}
   - 65: {fileID: 6553190}
   - 114: {fileID: 11408772}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player2D
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -62,8 +62,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .217299983, y: -.0422759913, z: 0}
-  m_LocalScale: {x: .801121593, y: .499434561, z: .801121652}
+  m_LocalPosition: {x: 2.51999998, y: -.449999988, z: 0}
+  m_LocalScale: {x: 13.2162819, y: 8.23928547, z: 13.2162857}
   m_Children: []
   m_Father: {fileID: 467254}
   m_RootOrder: 1
@@ -74,8 +74,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184786}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.713691, y: 3.71369195, z: 3.71369195}
+  m_LocalPosition: {x: -13.7799997, y: 0, z: 0}
+  m_LocalScale: {x: .375938803, y: .375938863, z: .375938863}
   m_Children:
   - {fileID: 489730}
   - {fileID: 431842}
@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05999994, z: -2.69273806}
+  m_LocalPosition: {x: 0, y: 10.96, z: -30.7299995}
   m_LocalScale: {x: .269273877, y: .269273818, z: .269273818}
   m_Children: []
   m_Father: {fileID: 467254}
@@ -101,8 +101,8 @@ Camera:
   m_GameObject: {fileID: 154006}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: .541176498, g: .752941251, b: .800000072, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -151,8 +151,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .283143163, y: .120696291, z: .199999988}
-  m_Center: {x: .00937362202, y: -.010893072, z: 0}
+  m_Size: {x: .283143163, y: .120696291, z: .0216878895}
+  m_Center: {x: .009373568, y: -.0108930711, z: -.00170231098}
 --- !u!65 &6553190
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -163,8 +163,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .209215328, y: .290727437, z: .062179517}
-  m_Center: {x: -.00539230183, y: -.0146362968, z: .00119368045}
+  m_Size: {x: 3.67000008, y: 5.57000017, z: .062179517}
+  m_Center: {x: -.230000004, y: -.0146362968, z: .00119368045}
 --- !u!81 &8145234
 AudioListener:
   m_ObjectHideFlags: 1
@@ -192,9 +192,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 50
   maxSpeed: 10
-  jumpForce: 300
+  jumpForce: 400
   attackDuration: .300000012
-  playerSwordPrefab: {fileID: 0}
 --- !u!124 &12479754
 Behaviour:
   m_ObjectHideFlags: 1
@@ -225,8 +224,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c5ff9b9ccd45f124a8f43e76bab50a03, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: f3d06ec0839dbdc4c9375e273abd4dc9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21277602
 SpriteRenderer:

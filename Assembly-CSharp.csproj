@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\2D AI\Cyclops.cs" />
      <Compile Include="Assets\Scripts\2D AI\Mumble.cs" />
      <Compile Include="Assets\Scripts\2D AI\Radish.cs" />
+     <Compile Include="Assets\Scripts\2D AI\ShadowMonster.cs" />
      <Compile Include="Assets\Scripts\Dialogue.cs" />
      <Compile Include="Assets\Scripts\DimensionSwitch.cs" />
      <Compile Include="Assets\Scripts\Player\Player2D.cs" />

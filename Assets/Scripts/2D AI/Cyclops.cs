@@ -61,4 +61,12 @@ public class Cyclops : MonoBehaviour
 			transform.localScale = newScale;
 		}
 	}
+
+	void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.name == "Player2D")
+		{
+			Destroy (gameObject);
+		}
+	}
 }

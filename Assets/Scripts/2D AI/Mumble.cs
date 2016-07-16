@@ -72,4 +72,12 @@ public class Mumble : MonoBehaviour
 			c_rigidbody.AddForce(movementVector);
 		}
 	}
+
+	void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.name == "Player2D")
+		{
+			Destroy (gameObject);
+		}
+	}
 }

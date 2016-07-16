@@ -71,5 +71,9 @@ public class Radish : MonoBehaviour
 				transform.localScale = newScale;
 			}
 		}
+		if (other.gameObject.name == "Player2D")
+		{
+			Destroy (gameObject);
+		}
 	}
 }

@@ -1,0 +1,308 @@
+fileFormatVersion: 2
+guid: 79f50b6ffda6aab4b8512c84e2e228af
+timeCreated: 1468701242
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Well
+    21300002: Stacked Stone hut
+    21300004: Gravel Path
+    21300006: Bigger Brown Fence
+    21300008: Various Structures_4
+    21300010: Clean Stone Hut
+    21300012: Brown Fence
+    21300014: Green Hut
+    21300016: Stone Path
+    21300018: Big Stone 1
+    21300020: Big Stone 2
+    21300022: Big Stone 3
+    21300024: Straw Hut
+    21300026: Mushroom Hut
+    21300028: Grass Hut
+    21300030: Brick Stone
+    21300032: Dark Stone
+    21300034: Various Structures_54
+    21300036: Various Structures_55
+    21300038: Leaf 1
+    21300040: Leaf 2
+    21300042: Bunch of smaller stones
+    21300044: White Fence
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Well
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 1826
+        width: 182
+        height: 552
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stacked Stone hut
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 1822
+        width: 827
+        height: 646
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gravel Path
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 1616
+        width: 1257
+        height: 407
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bigger Brown Fence
+      rect:
+        serializedVersion: 2
+        x: 2863
+        y: 1831
+        width: 722
+        height: 363
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Various Structures_4
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 1821
+        width: 10
+        height: 4
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Clean Stone Hut
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 956
+        width: 773
+        height: 482
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Brown Fence
+      rect:
+        serializedVersion: 2
+        x: 2832
+        y: 1223
+        width: 779
+        height: 253
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Green Hut
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 385
+        width: 277
+        height: 569
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stone Path
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 795
+        width: 1211
+        height: 236
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Big Stone 1
+      rect:
+        serializedVersion: 2
+        x: 1518
+        y: 573
+        width: 180
+        height: 136
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Big Stone 2
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 576
+        width: 161
+        height: 129
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Big Stone 3
+      rect:
+        serializedVersion: 2
+        x: 2059
+        y: 588
+        width: 161
+        height: 106
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Straw Hut
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 53
+        width: 437
+        height: 303
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mushroom Hut
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 108
+        width: 413
+        height: 374
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Grass Hut
+      rect:
+        serializedVersion: 2
+        x: 1890
+        y: 105
+        width: 296
+        height: 364
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Brick Stone
+      rect:
+        serializedVersion: 2
+        x: 2417
+        y: 112
+        width: 490
+        height: 384
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Dark Stone
+      rect:
+        serializedVersion: 2
+        x: 3001
+        y: 118
+        width: 475
+        height: 393
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Various Structures_54
+      rect:
+        serializedVersion: 2
+        x: 1509
+        y: 99
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Various Structures_55
+      rect:
+        serializedVersion: 2
+        x: 1574
+        y: 80
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Leaf 1
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 11
+        width: 46
+        height: 17
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Leaf 2
+      rect:
+        serializedVersion: 2
+        x: 1374
+        y: 9
+        width: 75
+        height: 17
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bunch of smaller stones
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 1229
+        width: 1017
+        height: 251
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: White Fence
+      rect:
+        serializedVersion: 2
+        x: 2769
+        y: 1015
+        width: 1117
+        height: 199
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

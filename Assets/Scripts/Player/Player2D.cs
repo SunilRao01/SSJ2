@@ -24,17 +24,22 @@ public class Player2D : MonoBehaviour
 	// Attacking
 	private GameObject playerSword;
 	public float attackDuration;
-	public GameObject playerSwordPrefab;
 	private bool isAttacking;
+	private Vector3 playerScale;
+	private Vector3 playerScaleRight;
 
 	void Start () 
 	{
+		playerScale = transform.localScale;
+		playerScaleRight = transform.localScale;
+		playerScaleRight.x *= -1;
+
 		// Instantiate component instances
 		o_rigidbody = GetComponent<Rigidbody>();
 
 		// Instantiate children objects
 		playerSword = transform.GetChild(1).gameObject;
-
+	
 		currentDirection = Direction.right;
 
 		Physics.IgnoreCollision(playerSword.GetComponent<BoxCollider>(), GetComponent<BoxCollider>());
@@ -43,6 +48,17 @@ public class Player2D : MonoBehaviour
 	
 	void Update () 
 	{
+		// Set rotation of player to zero
+		transform.eulerAngles = Vector3.zero;
+
+		if (currentDirection == Direction.right)
+		{
+			transform.localScale = playerScale;
+		}
+		else
+		{
+			transform.localScale = playerScaleRight;
+		}
 
 		input();
 	}
@@ -80,16 +96,8 @@ public class Player2D : MonoBehaviour
 		// Jumping
 		if (isGrounded && Input.GetAxisRaw("Vertical") == 1)
 		{
+			Debug.Log("Should jump!");
 			o_rigidbody.AddForce(Vector3.up * jumpForce);
-
-			if (currentDirection == Direction.left && Input.GetAxisRaw("Horizontal") != 0)
-			{
-				o_rigidbody.AddForce(Vector3.right * (jumpForce/4));
-			}
-			else if (currentDirection == Direction.right && Input.GetAxisRaw("Horizontal") != 0)
-			{
-				o_rigidbody.AddForce(Vector3.left * (jumpForce/4));
-			}
 		}
 
 		// Attacking
@@ -132,9 +140,6 @@ public class Player2D : MonoBehaviour
 		// Modify sword position depending on direction
 		if (currentDirection == Direction.left)
 		{
-			Vector3 newSwordRotation = playerSword.transform.eulerAngles;
-			newSwordRotation.y = 180;
-			playerSword.transform.eulerAngles = newSwordRotation;
 
 			Vector3 newSwordPosition = transform.position;
 			newSwordPosition.x -= 0.82f;
@@ -143,9 +148,6 @@ public class Player2D : MonoBehaviour
 		}
 		else if (currentDirection == Direction.right)
 		{
-			Vector3 newSwordRotation = playerSword.transform.eulerAngles;
-			newSwordRotation.y = 0;
-			playerSword.transform.eulerAngles = newSwordRotation;
 
 			Vector3 newSwordPosition = transform.position;
 			newSwordPosition.x += 0.82f;
@@ -166,6 +168,8 @@ public class Player2D : MonoBehaviour
 
 		// TODO: Remove sword
 		disableSword();
+
+
 
 		isAttacking = false;
 	}
