@@ -1,11 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TalkingMonster.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\2D AI\Radish.cs">
     <Files>
-      <File FileName="Assets\Scripts\Dialogue.cs" Line="54" Column="2" />
-      <File FileName="Assets\Resources\test.txt" Line="18" Column="36" />
-      <File FileName="Assets\Scripts\TalkingMonster.cs" Line="111" Column="4" />
-      <File FileName="Assets\Scripts\Player\Player3D.cs" Line="8" Column="18" />
+      <File FileName="Assets\Scripts\2D AI\Radish.cs" Line="38" Column="19" />
+      <File FileName="Assets\Scripts\Dialogue.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\test.txt" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TalkingMonster.cs" Line="142" Column="24" />
+      <File FileName="Assets\Scripts\Player\Player3D.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
