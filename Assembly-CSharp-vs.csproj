@@ -55,6 +55,7 @@
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Optional\HeadBob.cs" />
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Optional\PauseMenu.cs" />
      <Compile Include="Assets\First Person Drifter Controller\Scripts\Utils\CameraFade.cs" />
+     <Compile Include="Assets\Scripts\2D AI\Cyclops.cs" />
      <Compile Include="Assets\Scripts\2D AI\Mumble.cs" />
      <Compile Include="Assets\Scripts\2D AI\Radish.cs" />
      <Compile Include="Assets\Scripts\Dialogue.cs" />
