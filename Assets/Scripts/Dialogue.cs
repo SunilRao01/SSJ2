@@ -16,16 +16,18 @@ public struct dialogueChoice
 
 public class Dialogue : MonoBehaviour 
 {
+	public Vector3 customDialogueScale;
+
 	// Player
 	private Player3D c_player;
 
 	// Dialogue Box
 	private float _alpha = 0;
 	private string dialogue;
-	private TextMesh dialogueTextContainer;
-	private TextMesh dialogueChocieTextContainer_1;
-	private TextMesh dialogueChocieTextContainer_2;
-	private TextMesh dialogueChocieTextContainer_3;
+	private GameObject dialogueTextContainer;
+	private GameObject dialogueChocieTextContainer_1;
+	private GameObject dialogueChocieTextContainer_2;
+	private GameObject dialogueChocieTextContainer_3;
 	
 	// Variables
 	public bool complete;
@@ -41,6 +43,7 @@ public class Dialogue : MonoBehaviour
 	private dialoguePiece[] dialogues;
 	public List<string> dialogueArray;
 	public List<dialogueChoice> dialogueChoices;
+	public List<dialogueChoice> dialogueChoiceResponses;
 	public List<int> dialogueChoicePositions;
 	public int iterator;
 
@@ -55,27 +58,171 @@ public class Dialogue : MonoBehaviour
 	public int dialogueChoicePosition = 0;
 	public int lineCharLimit;
 	private Vector3 originalDialogueChoiceScale;
+	private int dialogueChoiceResponseIndex = 0;
+
+	public string dialogueFileName;
+	private TextAsset dialogueTextAsset;
+
+	public bool dialogueComplete = false;
 
 	void Awake()
 	{
-		dialogueTextContainer = transform.GetChild(0).GetComponent<TextMesh>();
-		dialogueChocieTextContainer_1 = transform.GetChild(1).GetComponent<TextMesh>();
-		dialogueChocieTextContainer_2 = transform.GetChild(2).GetComponent<TextMesh>();
-		dialogueChocieTextContainer_3 = transform.GetChild(3).GetComponent<TextMesh>();
+		// Initialization
+		dialogueTextContainer = transform.GetChild(0).gameObject;
+		dialogueChocieTextContainer_1 = transform.GetChild(1).gameObject;
+		dialogueChocieTextContainer_2 = transform.GetChild(2).gameObject;
+		dialogueChocieTextContainer_3 = transform.GetChild(3).gameObject;
 
-		// Disbale dialogue choices at start
+		// Disable main dialogue box
+		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+
+		// Disable main dialogue text
+		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = false;
+
+		// Disable dialogue choices text
 		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
+		// Disable dialogue choice dialogue box
 		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
 
+		// Store scale to revert to later
 		originalDialogueChoiceScale = dialogueChocieTextContainer_1.transform.localScale;
 
 		// Player
-		c_player = GetComponent<Player3D>();
+		c_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player3D>();
+
+		// Dialogue local vars
+		dialogueTextAsset = Resources.Load(dialogueFileName) as TextAsset;
+		bool choicesFlag = false;
+		bool responsesFlag = false;
+		int startIndex = 1;
+		dialogueChoice tempDialogueChoice = new dialogueChoice();
+
+		// Parse Dialogue
+		for (int i = 0; i < dialogueTextAsset.text.Length; i++)
+		{
+			if (i == 0)
+			{
+				continue;
+			}
+			else if (!choicesFlag)
+			{
+				// REGULAR dialogue to dialogue parsing
+				if (dialogueTextAsset.text[i] == '-')
+				{
+					if (responsesFlag)
+					{
+						// TODO: Add last choice reponsa dialogue
+						tempDialogueChoice.choice3 = (dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+						dialogueChoiceResponses.Add(tempDialogueChoice);
+
+						responsesFlag = false;
+					}
+
+					dialogueArray.Add(dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+					startIndex = i+1;
+				}
+				// First time seeing a choice from a regular dialogue
+				else if (dialogueTextAsset.text[i] == '1')
+				{
+					// Add previous line before choices begin
+					dialogueArray.Add(dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+
+					dialogueChoicePositions.Add(dialogueArray.Count);
+
+					choicesFlag = true;
+					startIndex = i+1;
+					continue;
+				}
+				else if (dialogueTextAsset.text[i] == '5')
+				{
+					// Add first choice response
+					tempDialogueChoice.choice1 = (dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+
+					startIndex = i+1;
+					continue;
+				}
+				else if (dialogueTextAsset.text[i] == '6')
+				{
+					// Add second choice response
+					tempDialogueChoice.choice2 = (dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+					
+					startIndex = i+1;
+					continue;
+				}
+			}
+			else
+			{
+				if (dialogueTextAsset.text[i] == '4')
+				{
+					tempDialogueChoice.choice3 = dialogueTextAsset.text.Substring(startIndex, (i-startIndex));
+
+					dialogueChoices.Add(tempDialogueChoice);
+					responsesFlag = true;
+					choicesFlag = false;
+					startIndex = i+1;
+
+					continue;
+				}
+				else
+				{
+					if (dialogueTextAsset.text[i] == '2')
+					{
+						tempDialogueChoice.choice1 = dialogueTextAsset.text.Substring(startIndex, (i-startIndex));
+						startIndex = i+1;
+					}
+					else if (dialogueTextAsset.text[i] == '3')
+					{
+						tempDialogueChoice.choice2 = dialogueTextAsset.text.Substring(startIndex, (i-startIndex));
+						startIndex = i+1;
+					}
+				}
+			}
+
+			if (i == (dialogueTextAsset.text.Length-1))
+			{
+				dialogueArray.Add(dialogueTextAsset.text.Substring(startIndex, (i-startIndex)));
+			}
+		}
+
+		initializeDialogue();
+	}
+
+	public void parseDialogue()
+	{
+
+	}
+
+	public void enableDialogue()
+	{
+		// Enable main dialogue box
+		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		// Enable main dialogue text
+		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = false;
+	}
+
+	public void disableDialogue()
+	{
+		// Disable main dialogue box
+		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		// Disable main dialogue text
+		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = false;
+		
+		// Disable dialogue choices text
+		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		// Disable dialogue choice dialogue box
+		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	public void initializeDialogue()
@@ -109,7 +256,7 @@ public class Dialogue : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			switch (dialogueChoices[dialogueChoiceIndex].choice1[dialogueChoices[dialogueChoiceIndex].choice1.Length-1])
+			switch (dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1[dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1.Length-3])
 			{
 				case 'M':
 					c_player.mean++;
@@ -122,18 +269,21 @@ public class Dialogue : MonoBehaviour
 					break;
 			}
 
-
+			// Add dialogue choice response
+			string choice = dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1;
+			string inputString = choice.Substring(0, choice.Length-5);
+			dialogueArray.Insert(iterator, inputString);
+			dialogueChoiceResponseIndex++;
 
 			// Tween out dialogue choices
 			disableDialgueChoices();
 
-			// Continue regular dialogue
-			StartCoroutine(TypeText());
+
 
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			switch (dialogueChoices[dialogueChoiceIndex].choice2[dialogueChoices[dialogueChoiceIndex].choice2.Length-1])
+			switch (dialogueChoiceResponses[dialogueChoiceResponseIndex].choice2[dialogueChoiceResponses[dialogueChoiceResponseIndex].choice2.Length-3])
 			{
 				case 'M':
 					c_player.mean++;
@@ -146,15 +296,21 @@ public class Dialogue : MonoBehaviour
 					break;
 			}
 
+
+
+			// Add dialogue choice response
+			string choice = dialogueChoiceResponses[dialogueChoiceResponseIndex].choice2;
+			string inputString = choice.Substring(0, choice.Length-5);
+			dialogueArray.Insert(iterator, inputString);
+			dialogueChoiceResponseIndex++;
+
 			// Tween out dialogue choices
 			disableDialgueChoices();
-			
-			// Continue regular dialogue
-			StartCoroutine(TypeText());
+
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			switch (dialogueChoices[dialogueChoiceIndex].choice3[dialogueChoices[dialogueChoiceIndex].choice3.Length-1])
+			switch (dialogueChoiceResponses[dialogueChoiceResponseIndex].choice3[dialogueChoiceResponses[dialogueChoiceResponseIndex].choice3.Length-3])
 			{
 				case 'M':
 					c_player.mean++;
@@ -167,12 +323,53 @@ public class Dialogue : MonoBehaviour
 					break;
 			}
 
+
+
+			// Add dialogue choice response
+			string choice = dialogueChoiceResponses[dialogueChoiceResponseIndex].choice3;
+			string inputString = choice.Substring(0, choice.Length-5);
+			dialogueArray.Insert(iterator, inputString);
+			dialogueChoiceResponseIndex++;
+
 			// Tween out dialogue choices
 			disableDialgueChoices();
-			
-			// Continue regular dialogue
-			StartCoroutine(TypeText());
 		}
+	}
+
+	void afterScaleDown()
+	{
+		GetComponent<MeshRenderer>().enabled = false;
+		transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		GetComponent<Dialogue>().restartDialogue();
+	}
+	
+	void afterScaleDownChoices()
+	{
+		GetComponent<MeshRenderer>().enabled = false;
+		transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		
+		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+	}
+
+	public void shrinkDialogueBoxes()
+	{
+		Vector3 targetScale = new Vector3(0.01f, 0.003f, 0.01f);
+		iTween.ScaleTo(dialogueTextContainer.gameObject, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
+		                                          "oncomplete", "afterScaleDown", "time", 0.5f));
+		
+		Vector3 targetScale_2 = new Vector3(0.0148f, 0.00592f, 0.0207f);
+		iTween.ScaleTo(dialogueChocieTextContainer_1, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+		                                            "time", 0.5f));
+		iTween.ScaleTo(dialogueChocieTextContainer_2, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+		                                            "time", 0.5f));
+		iTween.ScaleTo(dialogueChocieTextContainer_3, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+		                                       "oncomplete", "afterScaleDownChoices", "time", 0.5f));
 	}
 
 	void Update() 
@@ -193,13 +390,14 @@ public class Dialogue : MonoBehaviour
 		{
 			// Handles Input
 			// Dialogue progression
-			if (Input.GetKeyDown(KeyCode.E) && scrollComplete && !dialogueChoicing)
+			if (Input.GetKeyDown(KeyCode.E) && scrollComplete && !dialogueChoicing && !dialogueComplete)
 			{
 				iterator++;
 				dialogueText = "";
 
 				if (iterator == dialogueArray.Count)
 				{
+					dialogueComplete = true;
 					Vector3 targetScale = new Vector3(0.01f, 0.003f, 0.01f);
 					iTween.ScaleTo(dialogueTextContainer.gameObject, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
 					                                                             "oncomplete", "afterScaleDown", "time", 0.5f));
@@ -240,9 +438,9 @@ public class Dialogue : MonoBehaviour
 	void enableDialogueChoices()
 	{
 		// Reset any exisitng dialogue choice text
-		dialogueChocieTextContainer_1.text = "";
-		dialogueChocieTextContainer_2.text = "";
-		dialogueChocieTextContainer_3.text = "";
+		dialogueChocieTextContainer_1.GetComponent<TextMesh>().text = "";
+		dialogueChocieTextContainer_2.GetComponent<TextMesh>().text = "";
+		dialogueChocieTextContainer_3.GetComponent<TextMesh>().text = "";
 
 		// Enable renderer
 		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
@@ -267,9 +465,9 @@ public class Dialogue : MonoBehaviour
 
 	void disableDialgueChoices()
 	{
-		dialogueChocieTextContainer_1.text = "";
-		dialogueChocieTextContainer_2.text = "";
-		dialogueChocieTextContainer_3.text = "";
+		dialogueChocieTextContainer_1.GetComponent<TextMesh>().text = "";
+		dialogueChocieTextContainer_2.GetComponent<TextMesh>().text = "";
+		dialogueChocieTextContainer_3.GetComponent<TextMesh>().text = "";
 
 		// Tween down
 		Vector3 targetScale =  originalDialogueChoiceScale;
@@ -298,16 +496,34 @@ public class Dialogue : MonoBehaviour
 		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
 
-		// Set up dialogue to continue
+		// JACKPOT BELOW HERE
 
+		/*
+		// Add dialogue choice response
+		dialogueArray.Insert(iterator, dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1);
+		Debug.Log("Inserted " + dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1 + " @ " + iterator);
+
+		dialogueText = "";
+		dialogue = dialogueArray[iterator];
+
+		dialogueChoiceResponseIndex++;
+		*/
+
+		// Continue regular dialogue
+		//StartCoroutine(TypeText());
+
+		StopCoroutine(TypeText());
+
+		// Set up dialogue to continue
 		dialogueChoicing = false;
 		dialogue = dialogueArray[iterator];
-		dialogueTextContainer.text = "";
+		dialogueTextContainer.GetComponent<TextMesh>().text = "";
 		dialogueText = "";
 		dialogueChoiceIndex++;
 		dialogueChoicePosition = 0;
 
 		Debug.Log("Starting dialogue: " + dialogueArray[iterator].ToString());
+
 
 		StartCoroutine(TypeText());
 	}
@@ -335,7 +551,7 @@ public class Dialogue : MonoBehaviour
 		
 		// Starting dialogue
 		dialogue = dialogues[iterator].dialogueText;
-		dialogueTextContainer.text = "";
+		dialogueTextContainer.GetComponent<TextMesh>().text = "";
 		dialogueText = "";
 	}
 
@@ -344,6 +560,7 @@ public class Dialogue : MonoBehaviour
 		scrollComplete = false;
 		int count = 1;
 		int currentCharCount = 0;
+
 		foreach (char letter in dialogue.ToCharArray()) 
 		{
 			dialogueText += letter;
@@ -359,13 +576,13 @@ public class Dialogue : MonoBehaviour
 				switch (dialogueChoicePosition)
 				{
 				case 0:
-					dialogueChocieTextContainer_1.text = dialogueText.ToString();
+					dialogueChocieTextContainer_1.GetComponent<TextMesh>().text = dialogueText.ToString();
 					break;
 				case 1:
-					dialogueChocieTextContainer_2.text = dialogueText.ToString();
+					dialogueChocieTextContainer_2.GetComponent<TextMesh>().text = dialogueText.ToString();
 					break;
 				case 2:
-					dialogueChocieTextContainer_3.text = dialogueText.ToString();
+					dialogueChocieTextContainer_3.GetComponent<TextMesh>().text = dialogueText.ToString();
 					break;
 				default:
 					break;
@@ -373,7 +590,7 @@ public class Dialogue : MonoBehaviour
 			}
 			else
 			{
-				dialogueTextContainer.text = dialogueText.ToString();
+				dialogueTextContainer.GetComponent<TextMesh>().text = dialogueText.ToString();
 			}
 
 			if (sound && count % 4 == 0)
@@ -431,5 +648,14 @@ public class Dialogue : MonoBehaviour
 			StartCoroutine(TypeText ());
 		}
 	}
-	
+
+	void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			//disableDialogue();
+			//disableDialgueChoices();
+			shrinkDialogueBoxes();
+		}
+	}
 }

@@ -59,6 +59,8 @@
      <Compile Include="Assets\Scripts\2D AI\Mumble.cs" />
      <Compile Include="Assets\Scripts\2D AI\Radish.cs" />
      <Compile Include="Assets\Scripts\2D AI\ShadowMonster.cs" />
+     <Compile Include="Assets\Scripts\3D AI\Mumble3D.cs" />
+     <Compile Include="Assets\Scripts\3D AI\Radish3D.cs" />
      <Compile Include="Assets\Scripts\Dialogue.cs" />
      <Compile Include="Assets\Scripts\DimensionSwitch.cs" />
      <Compile Include="Assets\Scripts\Player\Player2D.cs" />
@@ -69,6 +71,13 @@
      <None Include="Assets\Resources\test.txt" />
      <None Include="Assets\First Person Drifter Controller\info.txt" />
      <None Include="Assets\Shader\3DText.shader" />
+     <None Include="Assets\Resources\radish.txt" />
+     <None Include="Assets\Skybox Shaders\Gradient Skybox.shader" />
+     <None Include="Assets\Skybox Shaders\Horizontal Skybox.shader" />
+     <None Include="Assets\Skybox Shaders\Horizon With Sun Skybox.shader" />
+     <None Include="Assets\Skybox Shaders\RGBM Cubed Skybox.shader" />
+     <None Include="Assets\Resources\mumble.txt" />
+     <None Include="Assets\Resources\shadow_monster.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Game Development/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

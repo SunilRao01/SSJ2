@@ -1,0 +1,49 @@
+-Do you intend to bring the world back into the 2 Dimensions?
+1I am.C
+2I’m not sure yet! I quite like four dimensions, myself.F
+3Why should I?M
+4Good.C
+5The fourth dimension is not something you should joke about, Hero.F
+6Perhaps there is no reason to, unless you choose it.M
+-This world is suffering. They see hurt and pain. Everything is too real for them. They would like for life to be simple once again.
+1What about you? How are you feeling?C
+2Thank you for the information, oh wise one.F
+3Well, “simple” is boring.M
+4Shadow Monster does not mind. Shadow Monster knows that this was inevitable.C
+5You jest, but this world will see if you will truly heed Shadow Monster’s plea.F
+6They are not one and the same. Perhaps it was you who was boring; you were the one who chose to live life in a loop.M
+-Shadow Monster sees the hurts, feels their pain. Shadow Monster can also see what is to come. Shadow Monster is just trying to help.
+1What do you mean, see what is to come? C
+2Did you seriously refer to yourself in third person just now? F
+3Uh, okay Creepy. I think can fix this on my own without your help. M
+4Shadow Monster can see the future. Shadow Monster can look into people’s thoughts, people’s minds. Shadow Monster knows too much. C
+5Shadow Monster does indeed speak in the Third. Shadow Monster cannot help it. Shadow Monster’s mind is in too many dimensions to stay present. Shadow Monster hopes that Hero does not mind.F
+6Shadow Monster is uncomfortable with creepy. Shadow Monster will try to move their tentacles less.M
+-Shadow Monster sees that the Hero intends to speak to the Magician. Shadow Monster pleads for Hero to stay compassionate. Help the monsters and go back to the Second Dimension.
+1Will turning the world back into 2D really help the townsfolk? C
+2Human Hero is confused. Why do the monsters need the world to be 2D again? F
+3I thought heroes were supposed to defeat monsters, not help. M
+4It will help them feel normal for a while. That is what’s important. C
+5This world is foreign to them. Have you not spoken to the Penguin or Radish? Life was not good for them before, but the third dimension makes it worse.F
+6You were the Hero that wished for complexity. Surely you know that a Hero’s purpose is not so black and white. Monsters are not inherently bad.M
+-If this world must stay in a loop, then Shadow Monster only hopes that it can be a world where the monsters find a moment of peace. Even if it makes the Hero revert back to before.
+1But if I was hurting innocent people, then none of it was worth it. Maybe I can find another way to live. C
+2Let me tell you, having parties thrown in your name is all fun and games until a dinosaur monster pushes someone down a well again. F
+3So I should be unhappy, just so other people aren’t? Isn’t that a little backwards? M
+4You could not help it; it was your design. What you do now, however, is what matters.C
+5The Dinosaur did not push the child down the well; they just did not anticipate their own size. The Dinosaur felt terrible after it happened. The Dinosaur embraced death when you arrived and walked into the Hero’s sword willingly.F
+6That way of thinking will send you down a troubling path, Hero. Perhaps you have more in common with the Magician than Shadow Monster presumed.M
+-At any rate, the Magician does not anticipate the Hero’s capability, even though The Magician of all people should know to be wary. If you like, Shadow Monster could tell you of your fortune and luck with the Magician.
+1Yes, please. Any information you have.C
+2Ooh, fortune telling! Can I get my tarot reading next?F
+3How about we skip the game and you just tell me? M
+4So eager. Shadow Monster hope that the Hero uses the information for the right reason.C
+5There is no reason for a tarot reading when the answer will be the same every time. The future is the beginning, and to know that now would just be a start of the end. The fortune telling will give you the whole answer.F
+6Shadow Monster would say that this is not a game, but Shadow Monster does not feel confident in that answer.M
+-The telling that will bring the Hero fortune is this; the Magician has no future. Any future that they assume is just an illusion. The Hero holds the Magician’s future in their hands. This knowledge will frighten the Magician; for this is not what the Magician anticipated when they snaked their way to being. Tell them this, and your own future will be set in stone.
+1A future where I help the monsters? C
+2A future where I take the Magician’s magic and shape my own world?  M
+3A future where I can finally just sit down, eat junk food and not give a shit about any of this? F
+4Then you are a good hero, indeed. Shadow Monster wishes you luck. If you treat everyone like you treat Shadow Monster, then you will get the future you seek. C
+5Shadow Monster thanks the human. Shadow Monster hopes that the world is a little nicer for everyone.M
+6The world will always appear to have a clear path, even when we are free to deviate at any point. For example, Shadow Monster will now deviate away from this conversation. Perhaps Shadow Monster will find a cupcake to eat.F

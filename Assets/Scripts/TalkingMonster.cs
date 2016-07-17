@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TalkingMonster : MonoBehaviour 
 {
+	public Vector3 customDialogueChoiceScale;
 	private GameObject o_dialogueBox;
 	private Dialogue c_dialogue;
 	private bool withPlayer;
@@ -20,7 +21,7 @@ public class TalkingMonster : MonoBehaviour
 		o_dialogueBox.GetComponent<MeshRenderer>().enabled = false;
 		o_dialogueBox.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
-		c_dialogue = GetComponent<Dialogue>();
+		/*c_dialogue = GetComponent<Dialogue>();
 
 		dialogueText = Resources.Load("test") as TextAsset;
 		int startIndex = 1;
@@ -92,7 +93,7 @@ public class TalkingMonster : MonoBehaviour
 			}
 		}
 
-		c_dialogue.initializeDialogue();
+		c_dialogue.initializeDialogue();*/
 
 	}
 
@@ -109,8 +110,16 @@ public class TalkingMonster : MonoBehaviour
 				GetComponent<Dialogue>().initializeDialogue();
 
 				o_dialogueBox.GetComponent<TextMesh>().text = "";
+				Vector3 targetScale;
 
-				Vector3 targetScale = new Vector3(0.054f, 0.0162f, 0.054f);
+				if (customDialogueChoiceScale == Vector3.zero)
+				{
+					targetScale = new Vector3(0.054f, 0.0162f, 0.054f);
+				}
+				else
+				{
+					targetScale = customDialogueChoiceScale;
+				}
 				iTween.ScaleTo(o_dialogueBox, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
 				                                          "oncomplete", "afterScaleUp", "time", 0.5f));
 			}
@@ -129,24 +138,11 @@ public class TalkingMonster : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+
 			withPlayer = false;
 			isDialoguing = false;
 
-			Vector3 targetScale = new Vector3(0.01f, 0.003f, 0.01f);
-			iTween.ScaleTo(o_dialogueBox, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
-			                                          "oncomplete", "afterScaleDown", "time", 0.5f));
 
-			Vector3 targetScale_2 = new Vector3(0.0148f, 0.00592f, 0.0207f);
-			iTween.ScaleTo(dialogueChoice1, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-			                                           "time", 0.5f));
-			iTween.ScaleTo(dialogueChoice2, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-			                                             "time", 0.5f));
-			iTween.ScaleTo(dialogueChoice3, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-			                                            "oncomplete", "afterScaleDownChoices", "time", 0.5f));
-
-			/*GetComponent<Dialogue>().iterator = 0;
-			GetComponent<Dialogue>().dialogueChoiceIndex = 0;
-			GetComponent<Dialogue>().dialogueChoicePosition = 0;*/
 		}
 	}
 
