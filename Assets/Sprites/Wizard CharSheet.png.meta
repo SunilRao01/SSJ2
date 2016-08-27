@@ -1,0 +1,128 @@
+fileFormatVersion: 2
+guid: fdb6fa7f65724de498e8186840905cd0
+timeCreated: 1470609741
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Wizard CharSheet_0
+    21300002: Wizard CharSheet_1
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Wizard CharSheet_0
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 197
+        width: 412
+        height: 374
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 82, y: -187}
+        - {x: 124, y: -177}
+        - {x: 129, y: -162}
+        - {x: 178, y: -131}
+        - {x: 206, y: -60}
+        - {x: 206, y: -27}
+        - {x: 193, y: -25}
+        - {x: 75, y: -20}
+        - {x: 91, y: 20}
+        - {x: 82, y: 71}
+        - {x: 5, y: 187}
+        - {x: -6, y: 187}
+        - {x: -94, y: 67}
+        - {x: -83, y: -20}
+        - {x: -206, y: -27}
+        - {x: -206, y: -50}
+        - {x: -188, y: -63}
+        - {x: -182, y: -121}
+        - {x: -164, y: -128}
+        - {x: -103, y: -121}
+        - {x: -127, y: -164}
+        - {x: -125, y: -174}
+        - {x: -92, y: -187}
+        - {x: -49, y: -187}
+        - {x: -35, y: -180}
+        - {x: -9, y: -184}
+        - {x: 20, y: -187}
+    - name: Wizard CharSheet_1
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 197
+        width: 239
+        height: 374
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 116.5, y: -177}
+        - {x: 119.5, y: -171}
+        - {x: 119.5, y: -140}
+        - {x: 97.5, y: -54}
+        - {x: 99.5, y: 40}
+        - {x: 68.5, y: 100}
+        - {x: -98.5, y: 187}
+        - {x: -119.5, y: 187}
+        - {x: -119.5, y: 169}
+        - {x: -91.5, y: 93}
+        - {x: -86.5, y: 45}
+        - {x: -60.5, y: -37}
+        - {x: -76.5, y: -131}
+        - {x: -77.5, y: -157}
+        - {x: -66.5, y: -172}
+        - {x: 3.5, y: -187}
+        - {x: 41.5, y: -187}
+        - {x: 42.5, y: -180}
+        - {x: 37.5, y: -176}
+        - {x: 76.5, y: -177}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

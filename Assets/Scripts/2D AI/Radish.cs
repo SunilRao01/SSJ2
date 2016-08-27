@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Radish : MonoBehaviour 
+public class Radish : Enemy2D 
 {
 	enum Direction
 	{
@@ -13,26 +13,31 @@ public class Radish : MonoBehaviour
 
 	// Components
 	private Rigidbody c_rigidbody;
+	public bool lockMovement;
 
 	public float movementForce;
 	private bool isMoving;
 	private Direction currentDirection;
 
-	void Awake () 
+	void Start () 
 	{
 		c_rigidbody = GetComponent<Rigidbody>();
 
 		currentDirection = Direction.right;
 
 		isMoving = true;
-		StartCoroutine(radishMovement());
+
+		if (!lockMovement)
+		{
+			StartCoroutine(radishMovement());
+		}
 	}
 	
 	void Update () 
 	{
 	
 	}
-
+	
 	IEnumerator radishMovement()
 	{
 		while (isMoving)
@@ -49,7 +54,7 @@ public class Radish : MonoBehaviour
 			}
 		}
 	}
-
+	
 	void OnCollisionEnter(Collision other)
 	{
 		if (other.gameObject.CompareTag("DirectionSwitch"))
@@ -71,7 +76,8 @@ public class Radish : MonoBehaviour
 				transform.localScale = newScale;
 			}
 		}
-		if (other.gameObject.name == "Player2D")
+		
+		if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<Player2D>().isAttacking)
 		{
 			Destroy (gameObject);
 		}

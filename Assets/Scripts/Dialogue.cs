@@ -17,15 +17,16 @@ public struct dialogueChoice
 public class Dialogue : MonoBehaviour 
 {
 	public Vector3 customDialogueScale;
+	public Vector3 customDialogueChoiceScale;
 
 	// Player
-	private Player3D c_player;
+	private Player c_player;
 
 	// Dialogue Box
 	private float _alpha = 0;
 	private string dialogue;
 	private GameObject dialogueTextContainer;
-	private GameObject dialogueChocieTextContainer_1;
+	private GameObject dialogueChocieTextContainer_1; 
 	private GameObject dialogueChocieTextContainer_2;
 	private GameObject dialogueChocieTextContainer_3;
 	
@@ -79,21 +80,21 @@ public class Dialogue : MonoBehaviour
 		// Disable main dialogue text
 		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = false;
 
-		// Disable dialogue choices text
-		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-
-		// Disable dialogue choice dialogue box
-		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
+		
 
 		// Store scale to revert to later
 		originalDialogueChoiceScale = dialogueChocieTextContainer_1.transform.localScale;
 
 		// Player
-		c_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player3D>();
+		if (Application.loadedLevelName == "2DWorld")
+		{
+			c_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player2D>();
+		}
+		else
+		{
+			c_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player3D>();	
+		}
+		
 
 		// Dialogue local vars
 		dialogueTextAsset = Resources.Load(dialogueFileName) as TextAsset;
@@ -190,6 +191,7 @@ public class Dialogue : MonoBehaviour
 		}
 
 		initializeDialogue();
+		disableDialogue();
 	}
 
 	public void parseDialogue()
@@ -199,15 +201,43 @@ public class Dialogue : MonoBehaviour
 
 	public void enableDialogue()
 	{
+		// TODO: Diffrentiate dialogue choice target scale from
+		// regular dialogue box
+
 		// Enable main dialogue box
-		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
 		
 		// Enable main dialogue text
-		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = false;
-	}
+		dialogueTextContainer.GetComponent<MeshRenderer>().enabled = true;
 
+		// TODO: iTween up the dialogue box from here!
+		Vector3 targetScale;
+
+		if (customDialogueScale == Vector3.zero)
+		{
+			targetScale = new Vector3(0.08f, 0.0162f, 0.054f);
+		}
+		else
+		{
+			targetScale = customDialogueScale;
+		}
+
+		iTween.ScaleTo(transform.GetChild(0).gameObject, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
+		                                          "oncomplete", "afterScaleUp", "time", 0.5f));
+		
+	}
+	void afterScaleUp()
+	{
+
+		Debug.Log("Starting dialogue!");
+		startDialogue();
+	}
 	public void disableDialogue()
 	{
+		dialogueChoicing = false;
+
+		// Enable dialogue line
+
 		// Disable main dialogue box
 		dialogueTextContainer.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 		
@@ -223,6 +253,16 @@ public class Dialogue : MonoBehaviour
 		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
+
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	public void initializeDialogue()
@@ -241,6 +281,8 @@ public class Dialogue : MonoBehaviour
 		
 		// Starting dialogue
 		dialogue = dialogues[iterator].dialogueText;
+		dialogueTextContainer.GetComponent<TextMesh>().text = "";
+		dialogueText = "";
 		
 		if (autoStart)
 		{
@@ -338,23 +380,21 @@ public class Dialogue : MonoBehaviour
 
 	void afterScaleDown()
 	{
-		GetComponent<MeshRenderer>().enabled = false;
+		transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 		transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 		
+
+		disableDialogue();
+
+
 		GetComponent<Dialogue>().restartDialogue();
+
+
 	}
 	
 	void afterScaleDownChoices()
 	{
-		GetComponent<MeshRenderer>().enabled = false;
-		transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-		
-		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
-		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		disableDialgueChoices();
 	}
 
 	public void shrinkDialogueBoxes()
@@ -362,14 +402,17 @@ public class Dialogue : MonoBehaviour
 		Vector3 targetScale = new Vector3(0.01f, 0.003f, 0.01f);
 		iTween.ScaleTo(dialogueTextContainer.gameObject, iTween.Hash("scale", targetScale, "oncompletetarget", gameObject,
 		                                          "oncomplete", "afterScaleDown", "time", 0.5f));
-		
-		Vector3 targetScale_2 = new Vector3(0.0148f, 0.00592f, 0.0207f);
-		iTween.ScaleTo(dialogueChocieTextContainer_1, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-		                                            "time", 0.5f));
-		iTween.ScaleTo(dialogueChocieTextContainer_2, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-		                                            "time", 0.5f));
-		iTween.ScaleTo(dialogueChocieTextContainer_3, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
-		                                       "oncomplete", "afterScaleDownChoices", "time", 0.5f));
+
+		if (dialogueChoicing)
+		{
+			Vector3 targetScale_2 = new Vector3(0.0148f, 0.00592f, 0.0207f);
+			iTween.ScaleTo(dialogueChocieTextContainer_1, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                            "time", 0.5f));
+			iTween.ScaleTo(dialogueChocieTextContainer_2, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                            "time", 0.5f));
+			iTween.ScaleTo(dialogueChocieTextContainer_3, iTween.Hash("scale", targetScale_2, "oncompletetarget", gameObject,
+			                                       "oncomplete", "afterScaleDownChoices", "time", 0.5f));
+		}
 	}
 
 	void Update() 
@@ -447,12 +490,32 @@ public class Dialogue : MonoBehaviour
 		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
 		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
 		
+		// Enable dialogue choice numbers
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_1.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_2.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+		dialogueChocieTextContainer_3.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+
 		dialogueChocieTextContainer_1.GetComponent<MeshRenderer>().enabled = true;
 		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = true;
 		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = true;
 
-		// Tween up
-		Vector3 targetScale = new Vector3(0.05f, 0.02f, 0.07f);
+		// Tween up dialogue choices
+		Vector3 targetScale;
+		if (customDialogueChoiceScale == Vector3.zero)
+		{
+			 targetScale = new Vector3(0.05f, 0.02f, 0.07f);
+		}
+		else
+		{
+			targetScale = customDialogueChoiceScale;
+		}
+		
 
 		Debug.Log("Scaling choices up");
 		iTween.ScaleTo(dialogueChocieTextContainer_1.gameObject, iTween.Hash("scale", targetScale, "time", 0.5f));
@@ -496,23 +559,15 @@ public class Dialogue : MonoBehaviour
 		dialogueChocieTextContainer_2.GetComponent<MeshRenderer>().enabled = false;
 		dialogueChocieTextContainer_3.GetComponent<MeshRenderer>().enabled = false;
 
-		// JACKPOT BELOW HERE
+		// Enable dialogue choice numbers
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_1.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_2.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+		dialogueChocieTextContainer_3.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
-		/*
-		// Add dialogue choice response
-		dialogueArray.Insert(iterator, dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1);
-		Debug.Log("Inserted " + dialogueChoiceResponses[dialogueChoiceResponseIndex].choice1 + " @ " + iterator);
-
-		dialogueText = "";
-		dialogue = dialogueArray[iterator];
-
-		dialogueChoiceResponseIndex++;
-		*/
-
-		// Continue regular dialogue
-		//StartCoroutine(TypeText());
-
-		StopCoroutine(TypeText());
+		StopAllCoroutines();
 
 		// Set up dialogue to continue
 		dialogueChoicing = false;
@@ -537,14 +592,12 @@ public class Dialogue : MonoBehaviour
 
 	public void restartDialogue()
 	{
-		StopCoroutine(TypeText());
+		StopAllCoroutines();
+		//StopCoroutine(TypeText());
 
 		iterator = 0;
-		dialogues = new dialoguePiece[dialogueArray.Count];
-		for (int i = 0; i < dialogueArray.Count; i++)
-		{
-			dialogues[i].dialogueText = dialogueArray[i];
-		}
+		dialogueChoicePosition = 0;
+		dialogueChoiceIndex = 0;
 
 		complete = false;
 		scrollComplete = false;
@@ -561,6 +614,11 @@ public class Dialogue : MonoBehaviour
 		int count = 1;
 		int currentCharCount = 0;
 
+		if (dialogueChoicing)
+		{
+			dialogue.Remove(dialogue.Length-3, 1);
+		}
+
 		foreach (char letter in dialogue.ToCharArray()) 
 		{
 			dialogueText += letter;
@@ -568,7 +626,19 @@ public class Dialogue : MonoBehaviour
 
 			if (currentCharCount % lineCharLimit == 0)
 			{
+				if (letter != ' ')
+				{
+					dialogueText += "-";
+				}
 				dialogueText += "\n";
+
+				// OPTIONAL: Increase dialgue box size according to text
+				/*
+				// Disable main dialogue box
+				Vector3 currentLocalScale = dialogueTextContainer.transform.GetChild(0).localScale;
+				currentLocalScale.y += 1;
+				dialogueTextContainer.transform.GetChild(0).localScale = currentLocalScale;
+				*/
 			}
 
 			if (dialogueChoicing)
@@ -653,8 +723,8 @@ public class Dialogue : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			//disableDialogue();
-			//disableDialgueChoices();
+			StopAllCoroutines();
+
 			shrinkDialogueBoxes();
 		}
 	}

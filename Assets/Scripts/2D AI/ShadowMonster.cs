@@ -56,27 +56,28 @@ public class ShadowMonster : MonoBehaviour
 				break;
 				case 2:
 					phasePosition.x -= 0.5f;
-					phasePosition.y -= 2;
+					phasePosition.y -= 1.7f;
 					break;
 				case 3:
 					phasePosition.x += 7.4f;
 					break;
 				case 4:
 					phasePosition.x += 6.5f;
-					phasePosition.y -= 2;
+					phasePosition.y -= 1.7f;
 					break;
 				case 5:
-				newScale.x *= -1;
-				transform.localScale = newScale;	
-				phasePosition.x += 11.4f;
-					phasePosition.y -= 2;
+					newScale.x *= -1;
+
+					transform.localScale = newScale;	
+					phasePosition.x += 11.4f;
+					phasePosition.y -= 1.7f;
 					break;
 				case 6:
 					phasePosition.x += 11.0f;
 					break;
 				case 7:
 					phasePosition.x += 5.0f;
-					phasePosition.y -= 2;
+					phasePosition.y -= 1.7f;
 					break;
 				case 8:
 					phasePosition.x += 4.0f;

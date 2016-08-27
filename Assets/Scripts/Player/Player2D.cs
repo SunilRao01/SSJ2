@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+ using System.Collections.Generic;
 
-public class Player2D : MonoBehaviour 
+public class Player2D : Player 
 {
 	enum Direction
 	{
@@ -13,9 +14,13 @@ public class Player2D : MonoBehaviour
 
 	// Player component instances
 	private Rigidbody o_rigidbody;
+	private Animator o_animator;
+	private Player2DDialogue playerDialogue;
 
 	// Movement
+	private bool locked;
 	public float movementSpeed;
+	private static float staticMovementSpeed;
 	public float maxSpeed;
 	public float jumpForce;
 	private bool isGrounded;
@@ -24,18 +29,25 @@ public class Player2D : MonoBehaviour
 	// Attacking
 	private GameObject playerSword;
 	public float attackDuration;
-	private bool isAttacking;
-	private Vector3 playerScale;
-	private Vector3 playerScaleRight;
+	public bool isAttacking;
+	private bool hasJumpedDown;
+
+	// TODO: Call 'Player2DDialogue''s enableDialogue(string inputDialogue)
+
+	void Awake()
+	{
+		staticMovementSpeed = movementSpeed;
+
+		playerDialogue = GetComponent<Player2DDialogue>();
+	}
 
 	void Start () 
 	{
-		playerScale = transform.localScale;
-		playerScaleRight = transform.localScale;
-		playerScaleRight.x *= -1;
+		locked = false;
 
 		// Instantiate component instances
 		o_rigidbody = GetComponent<Rigidbody>();
+		o_animator = GetComponent<Animator>();
 
 		// Instantiate children objects
 		playerSword = transform.GetChild(1).gameObject;
@@ -44,8 +56,23 @@ public class Player2D : MonoBehaviour
 
 		Physics.IgnoreCollision(playerSword.GetComponent<BoxCollider>(), GetComponent<BoxCollider>());
 		disableSword();
+
+		// NOTE
+		// Initial dialogue when game starts
+
+
+		//StartCoroutine(waitThenTalkToSelf());
 	}
 	
+	IEnumerator waitThenTalkToSelf()
+	{
+		yield return new WaitForSeconds(3);
+
+		playerDialogue.enableDialogue("Here we go again...");
+	}
+
+
+
 	void Update () 
 	{
 		// Set rotation of player to zero
@@ -53,14 +80,26 @@ public class Player2D : MonoBehaviour
 
 		if (currentDirection == Direction.right)
 		{
-			transform.localScale = playerScale;
+			GetComponent<SpriteRenderer>().flipX = false;
 		}
 		else
 		{
-			transform.localScale = playerScaleRight;
+			GetComponent<SpriteRenderer>().flipX = true;
 		}
 
 		input();
+	}
+
+	public void lockMovement(bool lockedInput)
+	{
+		if (lockedInput)
+		{
+			movementSpeed = 0;
+		}
+		else 
+		{
+			movementSpeed = staticMovementSpeed;
+		}
 	}
 
 	private void input()
@@ -86,6 +125,16 @@ public class Player2D : MonoBehaviour
 				currentDirection = Direction.right;
 			}
 		}
+
+		if (Mathf.Abs(o_rigidbody.velocity.x) >= 0.1f)
+		{
+			o_animator.SetBool("walking", true);
+		}
+		else
+		{
+			o_animator.SetBool("walking", false);
+		}
+
 		o_rigidbody.AddForce(movementDirection);
 
 		// Lock z-rotation
@@ -97,14 +146,38 @@ public class Player2D : MonoBehaviour
 		if (isGrounded && Input.GetAxisRaw("Vertical") == 1)
 		{
 			Debug.Log("Should jump!");
+			hasJumpedDown = false;
+			o_animator.SetBool("jumpingUp", true);
 			o_rigidbody.AddForce(Vector3.up * jumpForce);
 		}
 
 		// Attacking
-		if (!isAttacking && Input.GetKeyDown(KeyCode.Space))
+		if (!isAttacking && Input.GetKeyDown(KeyCode.Space) && !o_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
 		{
 			StartCoroutine(playerAttack(currentDirection));
 		}
+
+		if (transform.position.y < -2)
+		{
+			// Restart level 
+			int randomDialogueIndex = Random.Range(0, playerDialogue.postDeathDialogue.Count-1);
+			playerDialogue.enableDialogue(playerDialogue.postDeathDialogue[randomDialogueIndex]);
+
+			StartCoroutine(waitThenRestart());
+		}
+
+		if (o_rigidbody.velocity.y < -2f && !hasJumpedDown)
+		{
+			o_animator.SetBool("jumpingDown", true);
+			hasJumpedDown = true;
+		}
+	}
+
+	IEnumerator waitThenRestart()
+	{
+		yield return new WaitForSeconds(3);
+
+		Application.LoadLevel(Application.loadedLevelName);
 	}
 
 	void OnCollisionEnter(Collision other)
@@ -112,6 +185,14 @@ public class Player2D : MonoBehaviour
 		if (other.gameObject.CompareTag("ground"))
 		{
 			isGrounded = true;
+			o_animator.SetBool("jumpingDown", false);
+			o_animator.SetBool("jumpingUp", false);
+		}
+
+		// TODO: When player collides with 
+		if (other.gameObject.CompareTag("EnemyProjectile"))
+		{
+			reduceHealth();
 		}
 	}
 
@@ -120,6 +201,20 @@ public class Player2D : MonoBehaviour
 		if (other.gameObject.CompareTag("ground"))
 		{
 			isGrounded = false;
+		}
+	}
+
+	public void reduceHealth()
+	{
+		health--;
+
+		if (health <= 0)
+		{
+			// Restart level when player dies
+			int randomDialogueIndex = Random.Range(0, playerDialogue.postDeathDialogue.Count-1);
+			playerDialogue.enableDialogue(playerDialogue.postDeathDialogue[randomDialogueIndex]);
+
+			StartCoroutine(waitThenRestart());
 		}
 	}
 
@@ -137,34 +232,42 @@ public class Player2D : MonoBehaviour
 
 	IEnumerator playerAttack(Direction inputDirection)
 	{
+		isAttacking = true;
+		Debug.Log("Attacking");
+		o_animator.SetBool("attacking", true);
+
 		// Modify sword position depending on direction
 		if (currentDirection == Direction.left)
 		{
 
 			Vector3 newSwordPosition = transform.position;
-			newSwordPosition.x -= 0.82f;
-			newSwordPosition.y -= 0.2f;
+			newSwordPosition.x -= 0.801f;
+			//newSwordPosition.y -= 0.2f;
 			playerSword.transform.position = newSwordPosition;
 		}
 		else if (currentDirection == Direction.right)
 		{
 
 			Vector3 newSwordPosition = transform.position;
-			newSwordPosition.x += 0.82f;
-			newSwordPosition.y -= 0.2f;
+			newSwordPosition.x += 0.801f;
+			//newSwordPosition.y -= 0.2f;
 
 			playerSword.transform.position = newSwordPosition;
 		}
+
+		//yield return new WaitForSeconds(0.1f);
 
 		//Spawn sword
 		enableSword();
 
 		// TODO: Add 'swish' SFX
 
-		isAttacking = true;
+		
 
 		// TODO: Wait
 		yield return new WaitForSeconds(attackDuration);
+
+		o_animator.SetBool("attacking", false);
 
 		// TODO: Remove sword
 		disableSword();
@@ -172,5 +275,17 @@ public class Player2D : MonoBehaviour
 
 
 		isAttacking = false;
+
+		
+
+	}
+
+	void OnColliderEnter(Collider other)
+	{
+		if (other.CompareTag("Enemy"))
+		{
+			Debug.Log("Input dialogue should've started");
+			playerDialogue.enableDialogue("[E]");
+		}
 	}
 }

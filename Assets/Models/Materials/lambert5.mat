@@ -90,11 +90,11 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -135,4 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .508120894, g: .188389078, b: .686274529, a: 1}
+        second: {r: 0.34117648, g: 0.5137255, b: 0.64705884, a: 1}

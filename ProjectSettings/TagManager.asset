@@ -8,7 +8,7 @@ TagManager:
   - playerSword
   - DirectionSwitch
   - Enemy
-  - New Tag
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX

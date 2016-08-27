@@ -2,12 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Player3D : MonoBehaviour 
+public class Player3D : Player 
 {
-	// Stats
-	public int mean = 0;
-	public int funny = 0;
-	public int compassion = 0;
+	
 
 	private Text meanLabel;
 	private Text funnyLabel;
